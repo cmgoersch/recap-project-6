@@ -14,6 +14,7 @@ export default async function handler(request, response) {
     try {
       const placeData = request.body;
       const place = new Place(placeData);
+
       await place.save();
       return response.status(201).json({ status: "Place created." });
     } catch (error) {

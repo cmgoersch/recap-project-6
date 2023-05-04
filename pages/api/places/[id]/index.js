@@ -14,7 +14,17 @@ export default async function handler(request, response) {
 
     response.status(200).json(place);
   }
-
+  if (request.method === "POST") {
+    try {
+      const placeData = request.body;
+      const place = new Place(placeData);
+      await place.save();
+      return response.status(201).json({ status: "Place created." });
+    } catch (error) {
+      console.error(error);
+      return response.status(400).json({ error: error.message });
+    }
+  }
   if (request.method === "PUT") {
     const placeData = request.body;
     await Place.findByIdAndUpdate(id, placeData);
